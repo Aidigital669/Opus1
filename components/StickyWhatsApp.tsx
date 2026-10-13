@@ -6,7 +6,7 @@ import { PROJECT_DETAILS } from "@/data/project";
 export default function StickyWhatsApp() {
   return (
     <aside
-      className="fixed left-4 sm:left-6 bottom-20 lg:bottom-8 z-40 select-none animate-fade-in"
+      className="hidden lg:block fixed left-6 bottom-8 z-40 select-none animate-fade-in"
       aria-label="Direct WhatsApp Communication"
     >
       <a
