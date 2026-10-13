@@ -13,8 +13,6 @@ import {
   Layers,
   Sparkles,
   SlidersHorizontal,
-  Compass,
-  Building,
 } from "lucide-react";
 
 interface OfficeConfigurationsProps {

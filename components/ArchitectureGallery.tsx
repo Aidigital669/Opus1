@@ -5,7 +5,7 @@ import Image from "next/image";
 import { GALLERY_ITEMS } from "@/data/project";
 import LightboxModal from "./LightboxModal";
 import Reveal from "./Reveal";
-import { Maximize2, Sparkles, Filter } from "lucide-react";
+import { Maximize2, Sparkles } from "lucide-react";
 
 export default function ArchitectureGallery() {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);

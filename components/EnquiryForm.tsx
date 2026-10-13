@@ -19,7 +19,6 @@ import {
   Calendar,
   MessageSquare,
   Shield,
-  Sparkles,
 } from "lucide-react";
 
 const formSchema = z.object({
