@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAF8F5;
+  --foreground: #121316;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    color: #121316;
+    background-color: #FAF8F5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #E5A912;
+    color: #0E0F12;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9D2C5;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E5A912;
+}
+
+/* Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Editorial Serif Headings */
+h1, h2, h3, .font-editorial {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* Restrained Gold Accent Lines */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #E5A912 50%, transparent 100%);
+}
+
+.gold-divider-subtle {
+  height: 1px;
+  background: linear-gradient(90deg, #E5A912 0%, rgba(229, 169, 18, 0.1) 100%);
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Cinematic Ken Burns Effect for Hero */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenburns 24s ease-in-out infinite alternate;
+}
+
+/* Metallic Shimmer Sweep for Gold Elements */
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    rgba(229, 169, 18, 0.9) 0%,
+    rgba(255, 235, 165, 1) 50%,
+    rgba(229, 169, 18, 0.9) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmerSweep 4s linear infinite;
+}
+
+/* Gentle Floating for Badges */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+/* Fade in for modals */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth Interactive Card Hover */
+.card-hover-modern {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+.card-hover-modern:hover {
+  transform: translateY(-6px);
+}
+
+/* Luxury Interactive Card Lift with Ambient Gold Glow */
+.card-hover-gold {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+.card-hover-gold:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -10px rgba(18, 19, 22, 0.08), 0 0 25px -4px rgba(229, 169, 18, 0.22);
+}
+
+/* Left-to-Right Shimmer Sweep */
+@keyframes shineSweepLeftRight {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-15deg);
+  }
+}
+
+.animate-shine-sweep {
+  animation: shineSweepLeftRight 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Pulsing Gold Ambient Breathing */
+@keyframes goldGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px -3px rgba(229, 169, 18, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px 2px rgba(229, 169, 18, 0.45);
+  }
+}
+
+.animate-gold-glow {
+  animation: goldGlowPulse 3.5s ease-in-out infinite;
+}
+
+/* Radar Beacon Ping for Architectural Blueprints */
+@keyframes radarPing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-radar {
+  animation: radarPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-marquee {
+    animation: none;
+  }
+  .animate-ken-burns {
+    animation: none;
+  }
+}
