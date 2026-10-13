@@ -58,6 +58,7 @@ export const PROJECT_DETAILS = {
   googleMapsUrl: "https://maps.app.goo.gl/1ZGhMzNrHtJuNNZTA",
   whatsappUrl:
     "https://wa.me/919373020701?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20The%20Opus%201%20by%20Profile%20on%20JM%20Road%2C%20Pune.",
+  brochureUrl: "/images/The%20Opus2240626%20(1).pdf",
   developerTrackRecord: "3 Million Sq.Ft delivered, ongoing, and upcoming projects",
   heroImage: "/images/opus-hero.webp",
   exteriorImage: "/images/opus-exterior.webp",

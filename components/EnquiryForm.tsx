@@ -19,6 +19,8 @@ import {
   Calendar,
   MessageSquare,
   Shield,
+  Download,
+  FileText,
 } from "lucide-react";
 
 const formSchema = z.object({
@@ -229,6 +231,33 @@ export default function EnquiryForm({
                   Monday to Saturday, 9:30 AM – 6:30 PM IST
                 </span>
               </div>
+            </Reveal>
+
+            {/* Official Project Brochure Download */}
+            <Reveal direction="left" distance={30} delay={520}>
+              <a
+                href={PROJECT_DETAILS.brochureUrl}
+                download="The-Opus-1-Brochure.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-4 bg-gradient-to-r from-gold/15 via-gold/10 to-charcoal-900 hover:from-gold hover:to-gold-light border border-gold/50 hover:border-gold rounded-sm transition-all shadow-lg card-hover-modern"
+                aria-label="Download Official Project Brochure PDF"
+              >
+                <div className="flex items-center space-x-3.5">
+                  <div className="p-2.5 bg-gold/25 group-hover:bg-charcoal-950 text-gold group-hover:text-gold rounded-xs transition-colors">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold uppercase tracking-wider text-white group-hover:text-charcoal-950 transition-colors">
+                      Download Official Brochure
+                    </span>
+                    <span className="text-[11px] font-mono text-gold-300 group-hover:text-charcoal-900 transition-colors">
+                      Floor Plans & Specifications • PDF
+                    </span>
+                  </div>
+                </div>
+                <Download className="w-4 h-4 text-gold group-hover:text-charcoal-950 group-hover:translate-y-0.5 transition-transform shrink-0 ml-2" />
+              </a>
             </Reveal>
           </div>
 

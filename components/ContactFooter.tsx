@@ -5,7 +5,7 @@ import Image from "next/image";
 import { PROJECT_DETAILS } from "@/data/project";
 import Reveal from "./Reveal";
 import MarqueeBanner from "./MarqueeBanner";
-import { Phone, Mail, MapPin, MessageSquare, ArrowUp, Building, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, MessageSquare, ArrowUp, Building, Sparkles, Download, FileText } from "lucide-react";
 
 export default function ContactFooter() {
   const scrollToTop = () => {
@@ -180,6 +180,31 @@ export default function ContactFooter() {
                     </span>
                     <span className="text-xs font-medium text-white group-hover:text-emerald-300 transition-colors">
                       Instant Sales Assistance
+                    </span>
+                  </div>
+                </a>
+              </Reveal>
+
+              {/* Official Project Brochure Download */}
+              <Reveal direction="right" distance={40} delay={440}>
+                <a
+                  href={PROJECT_DETAILS.brochureUrl}
+                  download="The-Opus-1-Brochure.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 p-3 bg-gradient-to-r from-gold/15 via-gold/10 to-charcoal-900 hover:from-gold hover:to-gold-light border border-gold/50 hover:border-gold rounded-sm transition-all group card-hover-modern shadow-md"
+                  aria-label="Download The Opus 1 Official Project Brochure PDF"
+                >
+                  <div className="p-2 bg-gold/25 group-hover:bg-charcoal-950 text-gold group-hover:text-gold rounded-xs transition-colors">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-[10px] uppercase font-mono text-gold-300 group-hover:text-charcoal-900 font-semibold tracking-wider">
+                      Official Brochure • PDF
+                    </span>
+                    <span className="text-xs font-bold text-white group-hover:text-charcoal-950 transition-colors flex items-center justify-between">
+                      <span>Download Brochure</span>
+                      <Download className="w-3.5 h-3.5 text-gold group-hover:text-charcoal-950 transition-transform group-hover:translate-y-0.5 ml-1 shrink-0" />
                     </span>
                   </div>
                 </a>
