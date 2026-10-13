@@ -75,7 +75,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
                 Discover{" "}
                 <span className="block text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
                   <span className="inline-block whitespace-nowrap">The Opus 1</span> <br />
-                  <span className="inline-block whitespace-nowrap">by... Profile...</span>
+                  <span className="inline-block whitespace-nowrap">by...Profile...</span>
                 </span>
                 <span className="block mt-2">
                   — a thoughtfully designed commercial destination.
