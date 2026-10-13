@@ -22,7 +22,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
   return (
     <section
       id="overview"
-      className="relative w-full max-w-full min-h-[92vh] lg:min-h-screen flex flex-col justify-center bg-charcoal-950 text-white overflow-hidden pt-28 pb-10 sm:pb-14"
+      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center bg-charcoal-950 text-white overflow-hidden pt-28 pb-10 sm:pb-14"
       aria-label="The Opus 1 Hero Presentation"
     >
       {/* Background Architectural Render with Cinematic Ambient Motion */}
