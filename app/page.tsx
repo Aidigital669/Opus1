@@ -29,7 +29,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory text-charcoal selection:bg-gold selection:text-charcoal-950">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip flex flex-col bg-ivory text-charcoal selection:bg-gold selection:text-charcoal-950">
       {/* Section A — Sticky Navigation */}
       <Navbar onEnquireClick={() => handleScrollToSection("enquire")} />
 

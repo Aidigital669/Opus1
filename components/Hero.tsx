@@ -22,7 +22,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
   return (
     <section
       id="overview"
-      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center bg-charcoal-950 text-white overflow-hidden pt-28 pb-10 sm:pb-14"
+      className="relative w-full max-w-full min-h-[92vh] lg:min-h-screen flex flex-col justify-center bg-charcoal-950 text-white overflow-hidden pt-28 pb-10 sm:pb-14"
       aria-label="The Opus 1 Hero Presentation"
     >
       {/* Background Architectural Render with Cinematic Ambient Motion */}
@@ -73,7 +73,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
             <Reveal direction="left" distance={45} delay={400}>
               <div className="max-w-2xl text-base sm:text-lg md:text-xl text-ivory-200/90 font-light leading-relaxed">
                 <span>Discover</span>
-                <span className="block text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
+                <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
                   <span className="whitespace-nowrap">The Opus 1</span>
                   <br />
                   <span className="whitespace-nowrap">by...Profile...</span>
