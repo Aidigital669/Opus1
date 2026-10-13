@@ -73,7 +73,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
             <Reveal direction="left" distance={45} delay={400}>
               <div className="max-w-2xl text-base sm:text-lg md:text-xl text-ivory-200/90 font-light leading-relaxed">
                 <span>Discover</span>
-                <span className="block text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
+                <span className="block text-6xl sm:text-6xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
                   <span className="whitespace-nowrap">The Opus 1</span>
                   <br />
                   <span className="whitespace-nowrap">by...Profile...</span>
