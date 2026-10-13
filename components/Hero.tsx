@@ -61,7 +61,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
 
             {/* Main Headline: Left-to-Right Slide */}
             <Reveal direction="left" distance={60} delay={250}>
-              <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-normal tracking-tight text-ivory-50 leading-[1.08]">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-normal tracking-tight text-ivory-50 leading-[1.12]">
                 A New Perspective <br className="hidden sm:inline" />
                 <span className="italic font-normal text-gold-300">
                   on Business.
@@ -73,9 +73,9 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
             <Reveal direction="left" distance={45} delay={400}>
               <p className="max-w-2xl text-base sm:text-lg md:text-xl text-ivory-200/90 font-light leading-relaxed">
                 Discover{" "}
-                <span className="text-6xl sm:text-4xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300">
-                  The Opus 1 <br />
-                  by... Profile...
+                <span className="block text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
+                  <span className="inline-block whitespace-nowrap">The Opus 1</span> <br />
+                  <span className="inline-block whitespace-nowrap">by... Profile...</span>
                 </span>
                 <span className="block mt-2">
                   — a thoughtfully designed commercial destination.
