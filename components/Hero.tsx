@@ -61,7 +61,7 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
 
             {/* Main Headline: Left-to-Right Slide */}
             <Reveal direction="left" distance={60} delay={250}>
-              <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-normal tracking-tight text-ivory-50 leading-[1.08]">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-normal tracking-tight text-ivory-50 leading-[1.12]">
                 A New Perspective <br className="hidden sm:inline" />
                 <span className="italic font-normal text-gold-300">
                   on Business.
@@ -71,16 +71,17 @@ export default function Hero({ onExploreClick, onEnquireClick }: HeroProps) {
 
             {/* Supporting Copy: Left-to-Right Slide */}
             <Reveal direction="left" distance={45} delay={400}>
-              <p className="max-w-2xl text-base sm:text-lg md:text-xl text-ivory-200/90 font-light leading-relaxed">
-                Discover{" "}
-                <span className="text-6xl xs:text-5xl sm:text-6xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300">
-                  The Opus 1 <br />
-                  by...Profile...
+              <div className="max-w-2xl text-base sm:text-lg md:text-xl text-ivory-200/90 font-light leading-relaxed">
+                <span>Discover</span>
+                <span className="block text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-serif font-medium text-gold-300 leading-tight my-1.5">
+                  <span className="whitespace-nowrap">The Opus 1</span>
+                  <br />
+                  <span className="whitespace-nowrap">by...Profile...</span>
                 </span>
-                <span className="block mt-2">
+                <span className="block text-sm sm:text-base md:text-lg text-ivory-300/90 mt-2">
                   — a thoughtfully designed commercial destination.
                 </span>
-              </p>
+              </div>
             </Reveal>
 
             {/* CTAs: Left-to-Right Slide with Shimmer */}
