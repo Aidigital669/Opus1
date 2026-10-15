@@ -69,6 +69,7 @@ export const PROJECT_DETAILS = {
   profileLogoDark: "/images/profile-logo-dark-text.png",
   profileLogoLight: "/images/profile-logo-light-text.png",
   profileIconMark: "/images/profile-icon-mark.png",
+  videoWalkthrough: "/Opusvideo.mp4",
 };
 
 export const OFFICE_UNITS: OfficeUnit[] = [

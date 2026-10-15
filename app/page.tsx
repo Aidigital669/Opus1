@@ -13,6 +13,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import ContactFooter from "@/components/ContactFooter";
 import FloatingMobileBar from "@/components/FloatingMobileBar";
 import StickyWhatsApp from "@/components/StickyWhatsApp";
+import StickyVideoWidget from "@/components/StickyVideoWidget";
 
 export default function Home() {
   const [selectedOffice, setSelectedOffice] = useState<string>("General Enquiry");
@@ -78,6 +79,11 @@ export default function Home() {
 
       {/* Sticky Left WhatsApp Button */}
       <StickyWhatsApp />
+
+      {/* Sticky Right Video Walkthrough Widget */}
+      <StickyVideoWidget
+        onEnquireClick={() => handleScrollToSection("enquire")}
+      />
     </div>
   );
 }

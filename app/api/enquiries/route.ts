@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
     )}`;
 
     let crmDispatched = false;
-    let crmLeadData: any = null;
+    let crmLeadData: Record<string, unknown> | null = null;
 
     const formattedNotes = [
       `[Inbound from ${leadSource} | Ref: ${referenceId}]`,
@@ -204,8 +204,11 @@ export async function POST(request: NextRequest) {
               leadSource,
             ]
           );
-        } catch (enqErr: any) {
-          console.warn("WebsiteEnquiry insert notice:", enqErr.message);
+        } catch (enqErr) {
+          console.warn(
+            "WebsiteEnquiry insert notice:",
+            (enqErr as Error)?.message || enqErr
+          );
         }
       } catch (dbErr) {
         console.error("Direct Anv CRM DB sync error:", dbErr);
