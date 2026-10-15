@@ -25,7 +25,7 @@ export default function StickyVideoWidget({
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
 
@@ -109,12 +109,16 @@ export default function StickyVideoWidget({
         className="fixed right-2.5 sm:right-5 bottom-20 lg:bottom-6 z-40 select-none animate-fade-in"
       >
         {isCollapsed ? (
-          /* Mini Floating Pill when minimized */
+          /* Mini Floating Pill when minimized / by default */
           <button
             type="button"
-            onClick={() => setIsCollapsed(false)}
-            className="group relative flex items-center gap-2 px-3 py-2 bg-charcoal-950/95 hover:bg-charcoal-900 border border-gold/60 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gold"
-            aria-label="Expand video walkthrough"
+            onClick={() => {
+              setIsCollapsed(false);
+              setIsPlaying(true);
+            }}
+            className="group relative flex items-center gap-2 px-3.5 py-2 bg-charcoal-950/95 hover:bg-charcoal-900 border border-gold/70 text-white rounded-full shadow-[0_8px_25px_-5px_rgba(212,175,55,0.35)] transition-all duration-300 hover:scale-105 active:scale-95 hover:border-gold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+            aria-label="Open video walkthrough"
+            title="Watch Opus 1 Video Tour"
           >
             {/* Pulsing ring indicator */}
             <span className="relative flex h-2.5 w-2.5">
