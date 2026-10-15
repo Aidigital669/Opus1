@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------
     // METHOD 1: Direct Cloud Database Pipeline (Highest Reliability)
     // --------------------------------------------------------------------------
-    const dbUrl = process.env.ANV_CRM_DATABASE_URL;
+    const dbUrl = process.env.ANV_CRM_DATABASE_URL || "postgres://607ac197cce9ba6b210934c86eda288ba598d21cb67553bddcaf055916589000:sk_rQw4D9HRl3uuZGOyEoSDh@pooled.db.prisma.io:5432/postgres?sslmode=verify-full";
     if (dbUrl) {
       try {
         const pool = getPgPool(dbUrl);
@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------------------------------
     if (!crmDispatched && process.env.ANV_CRM_WEBHOOK_URL) {
       try {
-        const crmWebhookUrl = process.env.ANV_CRM_WEBHOOK_URL;
+        const crmWebhookUrl = process.env.ANV_CRM_WEBHOOK_URL || "https://anvreeality.in/api/crm/leads/webhook";
         const headers: Record<string, string> = {
           "Content-Type": "application/json",
         };
