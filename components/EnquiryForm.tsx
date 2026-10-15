@@ -123,20 +123,20 @@ export default function EnquiryForm({
       const result = await response.json();
 
       if (response.ok && result.success) {
-        if (result.status === "delivered") {
-          setSubmissionState({
-            status: "delivered",
-            message: result.message,
-            referenceId: result.referenceId,
-          });
-          reset();
-        } else if (result.status === "setup_required") {
+        if (result.status === "setup_required") {
           // Explicit setup required notice per prompt requirement
           setSubmissionState({
             status: "setup_required",
             message: result.message,
             referenceId: result.referenceId,
           });
+        } else {
+          setSubmissionState({
+            status: "delivered",
+            message: result.message || "Enquiry submitted successfully",
+            referenceId: result.referenceId,
+          });
+          reset();
         }
       } else {
         setSubmissionState({
