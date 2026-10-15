@@ -69,6 +69,17 @@ export const metadata: Metadata = {
       "Boutique commercial offices on JM Road, Shivajinagar, Pune.",
     images: [`${siteUrl}/images/opus-hero.webp`],
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/images/profile-icon-mark.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/profile-icon-mark.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/images/profile-icon-mark.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export const viewport: Viewport = {

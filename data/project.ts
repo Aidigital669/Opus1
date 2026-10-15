@@ -68,6 +68,7 @@ export const PROJECT_DETAILS = {
   profileLogo: "/images/profile-logo.png",
   profileLogoDark: "/images/profile-logo-dark-text.png",
   profileLogoLight: "/images/profile-logo-light-text.png",
+  profileIconMark: "/images/profile-icon-mark.png",
 };
 
 export const OFFICE_UNITS: OfficeUnit[] = [
