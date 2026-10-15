@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import pg from "pg";
 
 const enquirySchema = z
   .object({
@@ -38,6 +39,21 @@ const enquirySchema = z
 
 export type EnquiryInput = z.infer<typeof enquirySchema>;
 
+// Global PG pool for serverless reuse
+let cachedPgPool: pg.Pool | null = null;
+function getPgPool(connectionString: string): pg.Pool {
+  if (!cachedPgPool) {
+    cachedPgPool = new pg.Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+      max: 5,
+      idleTimeoutMillis: 10000,
+      connectionTimeoutMillis: 5000,
+    });
+  }
+  return cachedPgPool;
+}
+
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
@@ -74,13 +90,13 @@ export async function POST(request: NextRequest) {
       validData.bhk ||
       validData.configuration ||
       validData.office ||
-      "Commercial Office";
+      "Commercial Office Space";
     const leadBudget = validData.budget || "On Request";
     const leadLocation =
       validData.location || "JM Road, Shivajinagar, Pune";
     const leadMessage =
       validData.message ||
-      (validData.enquiryType ? `Type: ${validData.enquiryType}` : "");
+      (validData.enquiryType ? `Enquiry Type: ${validData.enquiryType}` : "");
     const leadSource = validData.source || "opus1profile.com";
     const utmSource = validData.utm_source || "";
     const utmCampaign = validData.utm_campaign || "";
@@ -91,60 +107,164 @@ export async function POST(request: NextRequest) {
     )}`;
 
     let crmDispatched = false;
-    let crmLeadData: unknown = null;
+    let crmLeadData: any = null;
 
-    // 1. Dispatch lead to AnvReality CRM pipeline
-    try {
-      const crmWebhookUrl =
-        process.env.ANV_CRM_WEBHOOK_URL ||
-        process.env.CRM_WEBHOOK_URL ||
-        "https://anvreeality.in/api/crm/leads/webhook";
+    const formattedNotes = [
+      `[Inbound from ${leadSource} | Ref: ${referenceId}]`,
+      `Enquiry Type: ${validData.enquiryType || "General Information"}`,
+      leadMessage ? `Message: ${leadMessage}` : null,
+      utmSource ? `UTM Source: ${utmSource}` : null,
+      utmCampaign ? `UTM Campaign: ${utmCampaign}` : null,
+    ].filter(Boolean).join("\n");
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (process.env.ANV_CRM_API_KEY) {
-        headers["x-api-key"] = process.env.ANV_CRM_API_KEY;
-      }
+    // --------------------------------------------------------------------------
+    // METHOD 1: Direct Cloud Database Pipeline (Highest Reliability)
+    // --------------------------------------------------------------------------
+    const dbUrl = process.env.ANV_CRM_DATABASE_URL;
+    if (dbUrl) {
+      try {
+        const pool = getPgPool(dbUrl);
 
-      const crmPayload = {
-        name: leadName,
-        phone: leadPhone,
-        email: leadEmail,
-        project: leadProject,
-        bhk: leadBhk,
-        budget: leadBudget,
-        location: leadLocation,
-        message: leadMessage,
-        source: leadSource,
-        utm_source: utmSource,
-        utm_campaign: utmCampaign,
-        referenceId,
-        timestamp,
-      };
-
-      const crmResponse = await fetch(crmWebhookUrl, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(crmPayload),
-      });
-
-      if (crmResponse.ok) {
-        crmDispatched = true;
-        const resJson = await crmResponse.json().catch(() => null);
-        crmLeadData = resJson?.lead || null;
-      } else {
-        const errorText = await crmResponse.text().catch(() => "");
-        console.warn(
-          `AnvReality CRM webhook responded with status ${crmResponse.status}: ${errorText}`
+        // Check if lead already exists
+        const existing = await pool.query(
+          "SELECT id, code, notes FROM crm_leads WHERE phone = $1 LIMIT 1",
+          [leadPhone]
         );
+
+        if (existing.rows && existing.rows.length > 0) {
+          const oldLead = existing.rows[0];
+          const newNotes = oldLead.notes
+            ? `${oldLead.notes}\n\n---\n${formattedNotes}`
+            : formattedNotes;
+
+          const updated = await pool.query(
+            `UPDATE crm_leads 
+             SET notes = $1, temperature = 'hot', updated_at = NOW() 
+             WHERE id = $2 
+             RETURNING id, code, name, phone, email, stage, temperature`,
+            [newNotes, oldLead.id]
+          );
+
+          crmDispatched = true;
+          crmLeadData = updated.rows[0];
+        } else {
+          const code = `LD-${Math.floor(1000 + Math.random() * 9000)}`;
+          const leadDna = JSON.stringify({
+            configuration: leadBhk,
+            targetBudget: leadBudget,
+            preferredLocations: leadLocation,
+            purchasePurpose: "Commercial / Office",
+            sourceWebsite: leadSource,
+          });
+
+          const inserted = await pool.query(
+            `INSERT INTO crm_leads (
+              code, name, phone, email, designation, company, residence, is_nri, nri_tag,
+              location, property_interest, bhk, carpet_sqft, budget, budget_raw,
+              source, source_type, status, stage, temperature, assigned_to, notes, dna,
+              created_at, updated_at
+            )
+            VALUES (
+              $1, $2, $3, $4, 'Commercial Buyer', 'Enterprise', $5, false, null,
+              $5, $6, $7, 'Flexible', $8, 20000000,
+              $9, 'website', 'New Lead', 'new', 'hot', 'Unassigned', $10, $11,
+              NOW(), NOW()
+            )
+            RETURNING id, code, name, phone, email, stage, temperature`,
+            [
+              code,
+              leadName,
+              leadPhone,
+              leadEmail,
+              leadLocation,
+              leadProject,
+              leadBhk,
+              leadBudget,
+              leadSource,
+              formattedNotes,
+              leadDna,
+            ]
+          );
+
+          crmDispatched = true;
+          crmLeadData = inserted.rows[0];
+        }
+
+        // Also record in WebsiteEnquiry
+        try {
+          await pool.query(
+            `INSERT INTO "WebsiteEnquiry" (name, email, phone, subject, message, source, status, "createdAt", "updatedAt")
+             VALUES ($1, $2, $3, $4, $5, $6, 'New', NOW(), NOW())`,
+            [
+              leadName,
+              leadEmail,
+              leadPhone,
+              `Enquiry for ${leadProject}: ${leadBhk}`,
+              formattedNotes,
+              leadSource,
+            ]
+          );
+        } catch (enqErr: any) {
+          console.warn("WebsiteEnquiry insert notice:", enqErr.message);
+        }
+      } catch (dbErr) {
+        console.error("Direct Anv CRM DB sync error:", dbErr);
       }
-    } catch (crmErr) {
-      console.error("Failed to push lead to AnvReality CRM:", crmErr);
-      // Silent catch so visitor form submission does not fail
     }
 
-    // 2. Dispatch via Resend email if configured
+    // --------------------------------------------------------------------------
+    // METHOD 2: HTTP Webhook Pipeline (Fallback if DB sync not active)
+    // --------------------------------------------------------------------------
+    if (!crmDispatched && process.env.ANV_CRM_WEBHOOK_URL) {
+      try {
+        const crmWebhookUrl = process.env.ANV_CRM_WEBHOOK_URL;
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        if (process.env.ANV_CRM_API_KEY) {
+          headers["x-api-key"] = process.env.ANV_CRM_API_KEY;
+        }
+
+        const crmPayload = {
+          name: leadName,
+          phone: leadPhone,
+          email: leadEmail,
+          project: leadProject,
+          bhk: leadBhk,
+          budget: leadBudget,
+          location: leadLocation,
+          message: leadMessage,
+          source: leadSource,
+          utm_source: utmSource,
+          utm_campaign: utmCampaign,
+          referenceId,
+          timestamp,
+        };
+
+        const crmResponse = await fetch(crmWebhookUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(crmPayload),
+        });
+
+        if (crmResponse.ok) {
+          crmDispatched = true;
+          const resJson = await crmResponse.json().catch(() => null);
+          crmLeadData = resJson?.lead || null;
+        } else {
+          const errorText = await crmResponse.text().catch(() => "");
+          console.warn(
+            `AnvReality CRM webhook responded with status ${crmResponse.status}: ${errorText}`
+          );
+        }
+      } catch (crmErr) {
+        console.error("Failed to push lead to AnvReality CRM webhook:", crmErr);
+      }
+    }
+
+    // --------------------------------------------------------------------------
+    // METHOD 3: Dispatch via Resend Email (if configured)
+    // --------------------------------------------------------------------------
     const resendApiKey = process.env.RESEND_API_KEY;
     const notificationEmail =
       process.env.NOTIFICATION_EMAIL || "info@profile.net.in";
