@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { PROJECT_DETAILS } from "@/data/project";
 
@@ -89,6 +90,9 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+const googleTagId =
+  process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "AW-16715218921";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -133,6 +137,22 @@ export default function RootLayout({
         className={`${cormorant.variable} ${jakarta.variable} font-sans bg-ivory text-charcoal antialiased selection:bg-gold selection:text-charcoal-950`}
       >
         {children}
+        {/* Google tag (gtag.js) */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
+        />
+        <Script
+          id="google-tag-init"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleTagId}');
+          `}
+        </Script>
       </body>
     </html>
   );
